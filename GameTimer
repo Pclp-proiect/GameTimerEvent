@@ -1,0 +1,60 @@
+private void GameTimerEvent(object sender, EventArgs e)
+        {
+            lblScore.Text = "Score: " + score;
+            lblhighScore.Text = "High Score: " + highScore;
+            player.Top += gravity;
+            if(player.Top > 344)
+            {
+                gravity = 0;
+                player.Top = 344;
+                player.Image = Properties.Resources.tap;
+            }
+            else if(player.Top < 48)
+            {
+                gravity = 0;
+
+                player.Top = 48;
+                player.Image = Properties.Resources.tap2;
+            }
+            foreach (Control x in this.Controls)
+            {
+
+                if (x is PictureBox && (string)x.Tag == "obstacle" )
+                {
+                    x.Left -= obstacleSpeed;
+                    if (x.Left < 100)
+                    {
+                        x.Left = random.Next(1200, 3000);
+                        score += 1;
+
+                    }
+                    if(x.Bounds.IntersectsWith(player.Bounds))
+                    {
+                        gameTimer.Stop();
+                        lblScore.Text += "Game over !! Press Enter to Restart.";
+                        gameOver = true;
+                        if (score > highScore)
+                        {
+                            highScore = score;
+
+                        }
+                    }
+                }
+            }
+            if (score > 5)
+            {
+                obstacleSpeed = 12;
+                
+            }
+            if (score > 10)
+            {
+                obstacleSpeed = 15;
+            }
+            if (score > 20)
+            {
+                obstacleSpeed = 20;
+                gravityValue = 10;
+                    
+            } 
+
+        }
